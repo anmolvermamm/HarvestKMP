@@ -11,16 +11,32 @@ import SwiftUI
 
 struct LoginView: View {
     
+    @Environment(\.dismiss) var dismiss
+    
     @State private var email = ""
     @State private var password = ""
+    @FocusState private var nameIsFocused: Bool
+    
+    private var buttonWidth: CGFloat {
+        UIScreen.main.bounds.width - 70
+    }
+    
+    private var buttonRadius: Double {
+        10.0
+    }
     
     var body: some View {
-        ScrollView {
+        VStack {
             Spacer().frame(height: UIScreen.main.bounds.height * 0.1)
             googleSignInButton
             LabelledDivider(label: "or", color: ColorAssets.white.color)
             credentialView
             footerView
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                nameIsFocused = true
+            }
         }
         .frame(width: UIScreen.main.bounds.width,
                height: UIScreen.main.bounds.height,
@@ -40,9 +56,9 @@ struct LoginView: View {
             .foregroundColor(.black)
             .font(.title3)
             .padding()
-            .frame(width: UIScreen.main.bounds.width - 70)
+            .frame(width: buttonWidth)
             .background(ColorAssets.white.color)
-            .cornerRadius(10.0)
+            .cornerRadius(buttonRadius)
         }
         .padding(.bottom)
     }
@@ -52,29 +68,32 @@ struct LoginView: View {
             VStack {
                 TextField("Work Email", text: $email)
                     .padding(.bottom)
+                    .focused($nameIsFocused)
+                
                 SecureField("Password", text: $password)
             }
-            .padding()
+            .padding(.horizontal)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             
             signinButton
+                .padding(.vertical)
         }
-        .padding()
+        .padding(.horizontal)
     }
     
     private var signinButton: some View {
         Button {
             // TODO: (Nasir) Handle action
+            nameIsFocused.toggle() // Just for testing
         } label: {
             Text("Sign In")
                 .foregroundColor(.black)
                 .font(.title3)
                 .padding()
-                .frame(width: UIScreen.main.bounds.width - 70)
-                .background(ColorAssets.white.color)
-            
         }
-        .cornerRadius(10.0)
+        .frame(width: buttonWidth)
+        .background(ColorAssets.white.color)
+        .cornerRadius(buttonRadius)
     }
     
     var footerView: some View {
@@ -91,7 +110,7 @@ struct LoginView: View {
             .padding(.bottom)
             
             Button {
-                // TODO: (Nasir) Handle action
+                dismiss()
             } label: {
                 Text("View Tour")
                     .font(.title3)
