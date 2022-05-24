@@ -14,54 +14,37 @@ struct LaunchView: View {
     @State private var selection = 0
     
     private var textList = [
-        "Simple, powerful time tracking, reporting and invoicing",
-        "Track time easily, wherever you are",
-        "Enter expanses on go",
-        "Report on time for powerful insights"
+        "launch-text-1",
+        "launch-text-2",
+        "launch-text-3",
+        "launch-text-4"
     ]
     
     var body: some View {
-        
-        GeometryReader { proxy in
-            VStack {
-                Spacer().frame(height: 80.0)
-                headerView
-                pageView
-                signinButton(with: proxy)
-                    .padding()
-                footerView
-                    .padding(.bottom)
-            }
-            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-            .foregroundColor(ColorAssets.white.color)
-            .background(ColorAssets.colorBackground.color.edgesIgnoringSafeArea(.all))
+        VStack {
+            Spacer().frame(height: UIScreen.main.bounds.height * 0.1)
+            headerView
+            pageView
+            signinButton
+            footerView
         }
-        
+        .frame(width: UIScreen.main.bounds.width,
+               height: UIScreen.main.bounds.height,
+               alignment: .center)
+        .foregroundColor(ColorAssets.white.color)
+        .background(ColorAssets.colorBackground.color).edgesIgnoringSafeArea(.all)
     }
     
     var headerView: some View {
         VStack {
-            Text("H A R V E S T")
-                .font(.system(size: 35, weight: .bold, design: .default))
-            Text(textList[selection])
+            Text("launch-title")
+                .font(.system(size: 35,
+                              weight: .bold,
+                              design: .default))
+            Text(LocalizedStringKey(textList[selection]))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
         }
-    }
-    
-    func signinButton(with proxy: GeometryProxy) -> some View {
-        Button {
-            
-        } label: {
-            Text("Sign In")
-                .foregroundColor(.black)
-                .font(.title3)
-                .padding()
-                .frame(width: proxy.size.width - 30, alignment: .center)
-                .background(ColorAssets.white.color)
-            
-        }
-        .cornerRadius(18.0)
     }
     
     var pageView: some View {
@@ -74,17 +57,33 @@ struct LaunchView: View {
         .tabViewStyle(PageTabViewStyle())
     }
     
+    var signinButton: some View {
+        Button {
+            // TODO: (Nasir) Handle action
+        } label: {
+            Text("Sign In")
+                .foregroundColor(.black)
+                .font(.title3)
+                .padding()
+                .frame(width: UIScreen.main.bounds.width - 40, alignment: .center)
+                .background(ColorAssets.white.color)
+            
+        }
+        .cornerRadius(15.0)
+        .padding()
+    }
+    
     var footerView: some View {
         HStack {
             Text("Don't have an account?")
             Button {
-                
+                // TODO: (Nasir) Handle action
             } label: {
                 Text("Try Harvest Free")
                     .font(.headline)
             }
-            
         }
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
     }
 }
 
