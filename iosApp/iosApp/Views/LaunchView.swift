@@ -12,6 +12,7 @@ import SwiftUI
 struct LaunchView: View {
     
     @State private var selection = 0
+    @State private var loginPresented = false
     
     private var textList = [
         "launch-text-1",
@@ -31,7 +32,6 @@ struct LaunchView: View {
         .frame(width: UIScreen.main.bounds.width,
                height: UIScreen.main.bounds.height,
                alignment: .center)
-        .foregroundColor(ColorAssets.white.color)
         .background(ColorAssets.colorBackground.color).edgesIgnoringSafeArea(.all)
     }
     
@@ -45,6 +45,7 @@ struct LaunchView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
         }
+        .foregroundColor(ColorAssets.white.color)
     }
     
     var pageView: some View {
@@ -59,7 +60,7 @@ struct LaunchView: View {
     
     var signinButton: some View {
         Button {
-            // TODO: (Nasir) Handle action
+            loginPresented = true
         } label: {
             Text("Sign In")
                 .foregroundColor(.black)
@@ -71,6 +72,9 @@ struct LaunchView: View {
         }
         .cornerRadius(15.0)
         .padding()
+        .fullScreenCover(isPresented: $loginPresented) {
+            LoginView()
+        }
     }
     
     var footerView: some View {
@@ -83,6 +87,7 @@ struct LaunchView: View {
                     .font(.headline)
             }
         }
+        .foregroundColor(ColorAssets.white.color)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
     }
 }
@@ -91,7 +96,6 @@ struct LaunchView: View {
 struct LaunchView_Previews: PreviewProvider {
     static var previews: some View {
         LaunchView()
-        
     }
 }
 #endif
