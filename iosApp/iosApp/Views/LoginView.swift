@@ -9,56 +9,56 @@
 import Foundation
 import SwiftUI
 
+class LoginViewModel: ObservableObject {
+    @Published var hasFocus: Bool = true
+    @Published var showLoading = false
+
+    func performSignIn() {
+        hasFocus = false
+        showLoading = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.hasFocus = true
+            self.showLoading = false
+        }
+    }
+}
+
 struct LoginView: View {
+    
+    @ObservedObject private var viewModel = LoginViewModel()
     
     @Environment(\.dismiss) var dismiss
     
     @State private var email = ""
     @State private var password = ""
+    
     @FocusState private var nameIsFocused: Bool
-    
-    private var buttonWidth: CGFloat {
-        UIScreen.main.bounds.width - 70
-    }
-    
-    private var buttonRadius: Double {
-        10.0
-    }
     
     var body: some View {
         VStack {
-            Spacer().frame(height: UIScreen.main.bounds.height * 0.1)
             googleSignInButton
             LabelledDivider(label: "or", color: ColorAssets.white.color)
             credentialView
             footerView
         }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                nameIsFocused = true
-            }
-        }
         .frame(width: UIScreen.main.bounds.width,
-               height: UIScreen.main.bounds.height,
-               alignment: .center)
+               height: UIScreen.main.bounds.height)
         .background(ColorAssets.colorBackground.color)
         .edgesIgnoringSafeArea(.all)
+        .loadingIndicator(show: viewModel.showLoading)
     }
     
     private var googleSignInButton: some View {
         Button {
             // TODO: (Nasir) Need to handle
         } label: {
+            // TODO: (Nasir) Need to remove this entire HStack for Google Sign In, Must use button provided by Google pod
             HStack {
-                Image("") // TODO: (Nasir) add Google icon
-                Text("Sign In with Google")
+                Image("Google-Icon").padding(.trailing)
+                Text("Sign In with Google").padding(.leading)
             }
-            .foregroundColor(.black)
-            .font(.title3)
-            .padding()
-            .frame(width: buttonWidth)
-            .background(ColorAssets.white.color)
-            .cornerRadius(buttonRadius)
+            .harvestButton()
         }
         .padding(.bottom)
     }
@@ -79,21 +79,23 @@ struct LoginView: View {
                 .padding(.vertical)
         }
         .padding(.horizontal)
+        .onChange(of: nameIsFocused) { newValue in
+            self.viewModel.hasFocus = newValue
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                nameIsFocused = self.viewModel.hasFocus
+            }
+        }
     }
     
     private var signinButton: some View {
         Button {
-            // TODO: (Nasir) Handle action
-            nameIsFocused.toggle() // Just for testing
+            self.viewModel.performSignIn()
         } label: {
             Text("Sign In")
-                .foregroundColor(.black)
-                .font(.title3)
-                .padding()
+                .harvestButton()
         }
-        .frame(width: buttonWidth)
-        .background(ColorAssets.white.color)
-        .cornerRadius(buttonRadius)
     }
     
     var footerView: some View {
@@ -127,34 +129,3 @@ struct LoginView_Previews: PreviewProvider {
     }
 }
 #endif
-
-// From: https://stackoverflow.com/questions/56619043/show-line-separator-view-in-swiftui
-struct LabelledDivider: View {
-    
-    let label: String
-    let horizontalPadding: CGFloat
-    let color: Color
-    
-    init(label: String, horizontalPadding: CGFloat = 10, color: Color = .black) {
-        self.label = label
-        self.horizontalPadding = horizontalPadding
-        self.color = color
-    }
-    
-    var body: some View {
-        HStack {
-            line
-            Text(label)
-                .foregroundColor(color)
-            line
-        }.padding(.horizontal)
-    }
-    
-    var line: some View {
-        VStack {
-            Divider()
-                .background(color)
-        }
-        .padding(horizontalPadding)
-    }
-}

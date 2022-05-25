@@ -63,12 +63,7 @@ struct LaunchView: View {
             loginPresented = true
         } label: {
             Text("Sign In")
-                .foregroundColor(.black)
-                .font(.title3)
-                .padding()
-                .frame(width: UIScreen.main.bounds.width - 40, alignment: .center)
-                .background(ColorAssets.white.color)
-            
+                .harvestButton()
         }
         .cornerRadius(15.0)
         .padding()
