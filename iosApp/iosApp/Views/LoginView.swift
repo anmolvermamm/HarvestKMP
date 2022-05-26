@@ -11,11 +11,28 @@ import SwiftUI
 import shared
 
 
+struct AppError: LocalizedError {
+    let title: String
+    let message: String
+    
+    init(title: String, message: String) {
+        self.title = title
+        self.message = message
+    }
+    
+    init(_ error: Error) {
+        self.title = "Error"
+        self.message = error.localizedDescription
+    }
+    
+    var errorDescription: String? { message }
+}
+
 class AuthStore: ObservableObject {
     @Published var hasFocus: Bool = true
     @Published var showLoading = false
     
-    @Published var loginError: Error?
+    @Published var loginError: AppError?
 }
 
 struct LoginView: View {
@@ -25,9 +42,18 @@ struct LoginView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var email = "anmol@mutualmobile.com"
-    @State private var password = "password"
+    @State private var password = "passw"
     
     @FocusState private var nameIsFocused: Bool
+    
+    private var loginError: Binding<Bool> {
+        Binding {
+            store.loginError != nil
+        } set: { _ in
+            store.loginError = nil
+        }
+
+    }
     
     var body: some View {
         VStack {
@@ -81,6 +107,9 @@ struct LoginView: View {
                 nameIsFocused = self.store.hasFocus
             }
         }
+        .alert(isPresented: loginError, error: store.loginError) {
+            Text(store.loginError?.errorDescription ?? "")
+        }
     }
     
     private var signinButton: some View {
@@ -118,10 +147,32 @@ struct LoginView: View {
     private func performLogin() {
         LoginDataModel { state in
             
+//            do {
+//                let s = try state
+//            } catch let e {
+//                print("catch error \(e)")
+//            }
             
-            print("state \(type(of: state)) \(state)")
-           
             
+//            if let error = state as? ErrorState {
+//                do {
+//                    print(error)
+//                    let s = try error
+//                } catch let e {
+//                    print("catch error \(e)")
+//                }
+//            }
+            
+            if state is LoadingState {
+                store.showLoading = true
+                store.hasFocus = false
+            } else {
+                store.showLoading = false
+                if state is ErrorState {
+                    store.loginError = AppError(title: "Error",
+                                                message: "Invalid credentials")
+                }
+            }
         }.login(email: email, password: password)
     }
 }
