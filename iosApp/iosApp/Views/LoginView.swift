@@ -10,24 +10,6 @@ import Foundation
 import SwiftUI
 import shared
 
-
-struct AppError: LocalizedError {
-    let title: String
-    let message: String
-    
-    init(title: String, message: String) {
-        self.title = title
-        self.message = message
-    }
-    
-    init(_ error: Error) {
-        self.title = "Error"
-        self.message = error.localizedDescription
-    }
-    
-    var errorDescription: String? { message }
-}
-
 class AuthStore: ObservableObject {
     @Published var hasFocus: Bool = true
     @Published var showLoading = false

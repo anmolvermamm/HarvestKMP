@@ -19,6 +19,7 @@
 		3140A62E283DEDE000F3F28C /* HarvestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3140A62D283DEDE000F3F28C /* HarvestButton.swift */; };
 		3140A630283DEE0500F3F28C /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3140A62F283DEE0500F3F28C /* LoadingIndicator.swift */; };
 		3140A632283DEE4100F3F28C /* LabelledDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3140A631283DEE4100F3F28C /* LabelledDivider.swift */; };
+		3140A636283F3BDA00F3F28C /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3140A635283F3BDA00F3F28C /* AppError.swift */; };
 		7555FF83242A565900829871 /* GithubTrendingUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* GithubTrendingUI.swift */; };
 		89D841702779CFB200D08BC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D8416F2779CFB200D08BC0 /* AppDelegate.swift */; };
 		89D841732779D83600D08BC0 /* GithubTrendingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D841722779D83600D08BC0 /* GithubTrendingVM.swift */; };
@@ -38,6 +39,7 @@
 		3140A62D283DEDE000F3F28C /* HarvestButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HarvestButton.swift; sourceTree = "<group>"; };
 		3140A62F283DEE0500F3F28C /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		3140A631283DEE4100F3F28C /* LabelledDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelledDivider.swift; sourceTree = "<group>"; };
+		3140A635283F3BDA00F3F28C /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* GithubTrendingUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubTrendingUI.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -87,14 +89,31 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		3140A633283DEE9600F3F28C /* Common Views */ = {
+		3140A633283DEE9600F3F28C /* Reusable Common Components */ = {
+			isa = PBXGroup;
+			children = (
+				3140A634283F3BB300F3F28C /* Views */,
+				3140A637283F3BDF00F3F28C /* Models */,
+			);
+			path = "Reusable Common Components";
+			sourceTree = "<group>";
+		};
+		3140A634283F3BB300F3F28C /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				3140A62D283DEDE000F3F28C /* HarvestButton.swift */,
 				3140A62F283DEE0500F3F28C /* LoadingIndicator.swift */,
 				3140A631283DEE4100F3F28C /* LabelledDivider.swift */,
 			);
-			path = "Common Views";
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3140A637283F3BDF00F3F28C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3140A635283F3BDA00F3F28C /* AppError.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		43284C8CA9782B61E3903EBC /* Pods */ = {
@@ -141,7 +160,7 @@
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 				89D8416F2779CFB200D08BC0 /* AppDelegate.swift */,
-				3140A633283DEE9600F3F28C /* Common Views */,
+				3140A633283DEE9600F3F28C /* Reusable Common Components */,
 				3140A62C283C975D00F3F28C /* Views */,
 				313E37CD28379EF800CA7E57 /* Resources */,
 			);
@@ -282,6 +301,7 @@
 				3140A632283DEE4100F3F28C /* LabelledDivider.swift in Sources */,
 				3140A62E283DEDE000F3F28C /* HarvestButton.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				3140A636283F3BDA00F3F28C /* AppError.swift in Sources */,
 				89D841732779D83600D08BC0 /* GithubTrendingVM.swift in Sources */,
 				3140A62B283C971100F3F28C /* LoginView.swift in Sources */,
 				7555FF83242A565900829871 /* GithubTrendingUI.swift in Sources */,
