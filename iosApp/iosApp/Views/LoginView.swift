@@ -8,30 +8,24 @@
 
 import Foundation
 import SwiftUI
+import shared
 
-class LoginViewModel: ObservableObject {
+
+class AuthStore: ObservableObject {
     @Published var hasFocus: Bool = true
     @Published var showLoading = false
-
-    func performSignIn() {
-        hasFocus = false
-        showLoading = true
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.hasFocus = true
-            self.showLoading = false
-        }
-    }
+    
+    @Published var loginError: Error?
 }
 
 struct LoginView: View {
     
-    @ObservedObject private var viewModel = LoginViewModel()
+    @ObservedObject private var store = AuthStore()
     
     @Environment(\.dismiss) var dismiss
     
-    @State private var email = ""
-    @State private var password = ""
+    @State private var email = "anmol@mutualmobile.com"
+    @State private var password = "password"
     
     @FocusState private var nameIsFocused: Bool
     
@@ -46,7 +40,7 @@ struct LoginView: View {
                height: UIScreen.main.bounds.height)
         .background(ColorAssets.colorBackground.color)
         .edgesIgnoringSafeArea(.all)
-        .loadingIndicator(show: viewModel.showLoading)
+        .loadingIndicator(show: store.showLoading)
     }
     
     private var googleSignInButton: some View {
@@ -80,18 +74,18 @@ struct LoginView: View {
         }
         .padding(.horizontal)
         .onChange(of: nameIsFocused) { newValue in
-            self.viewModel.hasFocus = newValue
+            self.store.hasFocus = newValue
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                nameIsFocused = self.viewModel.hasFocus
+                nameIsFocused = self.store.hasFocus
             }
         }
     }
     
     private var signinButton: some View {
         Button {
-            self.viewModel.performSignIn()
+            performLogin()
         } label: {
             Text("Sign In")
                 .harvestButton()
@@ -119,6 +113,16 @@ struct LoginView: View {
             }
         }
         .foregroundColor(ColorAssets.white.color)
+    }
+    
+    private func performLogin() {
+        LoginDataModel { state in
+            
+            
+            print("state \(type(of: state)) \(state)")
+           
+            
+        }.login(email: email, password: password)
     }
 }
 
