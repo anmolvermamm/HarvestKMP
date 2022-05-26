@@ -11,6 +11,8 @@ import Foundation
 import UIKit
 import shared
 
+// TODO: https://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http
+// Reset Allow Arbitrary Loads to better suited version in production.
 
 let sharedComponent = SharedComponent()
 let useCasesComponent = UseCasesComponent()
