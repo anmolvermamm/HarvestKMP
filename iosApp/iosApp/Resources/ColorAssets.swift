@@ -13,7 +13,7 @@ enum ColorAssets: String {
     case white
     
     var color: Color {
-        Color(self.rawValue)
+        Color(rawValue)
     }
     
     var uiColor: UIColor {
