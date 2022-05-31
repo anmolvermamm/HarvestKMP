@@ -128,32 +128,13 @@ struct LoginView: View {
     
     private func performLogin() {
         LoginDataModel { state in
-            
-//            do {
-//                let s = try state
-//            } catch let e {
-//                print("catch error \(e)")
-//            }
-            
-            
-//            if let error = state as? ErrorState {
-//                do {
-//                    print(error)
-//                    let s = try error
-//                } catch let e {
-//                    print("catch error \(e)")
-//                }
-//            }
-            
             if state is LoadingState {
                 store.showLoading = true
                 store.hasFocus = false
-            } else {
+            } else if let error = state as? ErrorState {
                 store.showLoading = false
-                if state is ErrorState {
-                    store.loginError = AppError(title: "Error",
-                                                message: "Invalid credentials")
-                }
+                store.loginError = AppError(title: "Error",
+                                            message: error.throwable.message ?? "Login failure")
             }
         }.login(email: email, password: password)
     }
